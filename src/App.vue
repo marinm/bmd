@@ -7,7 +7,15 @@ import Paper from "./components/Paper.vue";
   <Paper>
     <Box>
       <Box>
-        <Box></Box>
+        <Box>
+          <Box>
+            <Box></Box>
+            <Box></Box>
+            <Box></Box>
+          </Box>
+          <Box></Box>
+          <Box></Box>
+        </Box>
         <Box></Box>
         <Box></Box>
       </Box>
