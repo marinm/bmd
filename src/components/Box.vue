@@ -1,12 +1,10 @@
 <template>
   <div
     class="box"
-    :class="{ selected: showBoxTools }"
-    @mouseenter="onMouseEnter"
-    @mouseleave="onMouseLeave"
+    :class="{ selected: isSelected }"
+    @click.stop="isSelected = true"
   >
-    <BoxTools v-if="showBoxTools" />
-    <slot></slot>
+    <slot />
   </div>
 </template>
 
@@ -17,17 +15,40 @@ export default {
   components: {
     BoxTools,
   },
+  emits: ["deselect"],
   data() {
     return {
-      showBoxTools: false,
+      isSelected: false,
     };
   },
-  methods: {
-    onMouseEnter() {
-      this.showBoxTools = true;
+  watch: {
+    isSelected() {
+      if (this.isSelected) {
+        this.addKeyListener();
+      } else {
+        this.removeKeyListener();
+      }
     },
-    onMouseLeave() {
-      this.showBoxTools = false;
+  },
+  methods: {
+    deselect() {
+      this.isSelected = false;
+      this.$emit("deselect");
+    },
+    onSlotDeselect() {
+      this.isSelected = true;
+      console.log("slot deselect");
+    },
+    onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Shift") {
+        this.deselect();
+      }
+    },
+    addKeyListener() {
+      window.addEventListener("keydown", this.onKeyDown);
+    },
+    removeKeyListener() {
+      window.removeEventListener("keydown", this.onKeyDown);
     },
   },
 };
@@ -44,5 +65,8 @@ export default {
   flex-grow: 1;
   position: relative;
   outline: 1px solid blue;
+}
+.box.selected {
+  background-color: aliceblue;
 }
 </style>
