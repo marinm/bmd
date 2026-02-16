@@ -1,15 +1,13 @@
 <template>
-  <div
-    class="box"
-    :class="{ selected: isSelected }"
-    @click.stop="isSelected = true"
-  >
+  <div class="box" :class="{ selected: isSelected }" @click.stop="select">
     <slot />
   </div>
 </template>
 
 <script lang="ts">
+import { mapStores } from "pinia";
 import BoxTools from "./BoxTools.vue";
+import { useSelectedBoxIdStore } from "../stores/selectedBoxId";
 
 export default {
   components: {
@@ -18,37 +16,18 @@ export default {
   emits: ["deselect"],
   data() {
     return {
-      isSelected: false,
+      boxId: crypto.randomUUID(),
     };
   },
-  watch: {
+  computed: {
+    ...mapStores(useSelectedBoxIdStore),
     isSelected() {
-      if (this.isSelected) {
-        this.addKeyListener();
-      } else {
-        this.removeKeyListener();
-      }
+      return this.boxId === this.selectedBoxIdStore.boxId;
     },
   },
   methods: {
-    deselect() {
-      this.isSelected = false;
-      this.$emit("deselect");
-    },
-    onSlotDeselect() {
-      this.isSelected = true;
-      console.log("slot deselect");
-    },
-    onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Shift") {
-        this.deselect();
-      }
-    },
-    addKeyListener() {
-      window.addEventListener("keydown", this.onKeyDown);
-    },
-    removeKeyListener() {
-      window.removeEventListener("keydown", this.onKeyDown);
+    select() {
+      this.selectedBoxIdStore.set(this.boxId);
     },
   },
 };
