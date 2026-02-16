@@ -1,5 +1,10 @@
 <template>
-  <div class="box" :class="{ selected: isSelected }" @click.stop="select">
+  <div
+    class="box"
+    :class="{ selected: isSelected }"
+    @click.stop="select"
+    :data-box-id="boxId"
+  >
     <slot />
   </div>
 </template>
@@ -13,7 +18,6 @@ export default {
   components: {
     BoxTools,
   },
-  emits: ["deselect"],
   data() {
     return {
       boxId: crypto.randomUUID(),
