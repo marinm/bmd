@@ -6,6 +6,7 @@
     :data-box-id="boxId"
   >
     <slot />
+    <textarea></textarea>
   </div>
 </template>
 
@@ -51,5 +52,18 @@ export default {
 }
 .box.selected {
   background-color: aliceblue;
+}
+.box textarea {
+  width: 100%;
+  height: 100%;
+  border: none;
+  box-sizing: border-box;
+  margin: 0;
+  font-family: sans-serif;
+  resize: none;
+  background-color: transparent;
+}
+.box textarea:focus {
+  outline: none;
 }
 </style>
