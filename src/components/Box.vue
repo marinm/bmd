@@ -1,7 +1,10 @@
 <template>
   <div
     class="box"
-    :class="{ selected: isSelected }"
+    :class="{
+      selected: isSelected,
+      outline: selectedBoxIdStore.showBoxOutline,
+    }"
     @click.stop="select"
     :data-box-id="boxId"
   >
@@ -48,10 +51,12 @@ export default {
   box-sizing: border-box;
   flex-grow: 1;
   position: relative;
-  outline: 1px solid blue;
 }
 .box.selected {
   background-color: aliceblue;
+}
+.box.outline {
+  outline: 0.1mm solid blue;
 }
 .box textarea {
   width: 100%;

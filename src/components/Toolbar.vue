@@ -15,6 +15,14 @@
       />
       Spellcheck
     </label>
+    <label>
+      <input
+        type="checkbox"
+        :checked="selectedBoxIdStore.showBoxOutline"
+        @change="selectedBoxIdStore.setShowBoxOutline($event.target.checked)"
+      />
+      Box outlines
+    </label>
   </div>
 </template>
 
