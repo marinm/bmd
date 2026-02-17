@@ -33,24 +33,42 @@ export default {
   },
   computed: {
     ...mapStores(useSelectedBoxIdStore),
-    selectedBoxDiv() {
+    selectedBoxElement() {
       return document.querySelector(
         `[data-box-id="${this.selectedBoxIdStore.boxId}"]`,
-      );
+      ) as HTMLElement;
+    },
+    parentBoxElement() {
+      if (!this.selectedBoxElement) {
+        return null;
+      }
+      const parentBoxDiv =
+        this.selectedBoxElement.parentElement?.closest("[data-box-id]") ?? null;
+      return parentBoxDiv as HTMLElement;
     },
   },
   methods: {
     selectParent() {
-      const parentBoxDiv =
-        this.selectedBoxDiv?.parentElement?.closest("[data-box-id]") ?? null;
-      if (parentBoxDiv) {
-        this.selectedBoxIdStore.set(parentBoxDiv?.dataset.boxId ?? "");
-      }
+      this.selectedBoxIdStore.set(this.parentBoxElement?.dataset.boxId ?? "");
     },
     onKeyUp(event: KeyboardEvent) {
-      if (event.key === "Shift") {
-        this.selectParent();
+      switch (event.key) {
+        case "Shift":
+          this.selectParent();
+          break;
+        case "c":
+          this.setStyleProperty("flex-direction", "column");
+          break;
+        case "r":
+          this.setStyleProperty("flex-direction", "row");
+          break;
       }
+    },
+    setStyleProperty(propertyName: string, value: any) {
+      if (!this.selectedBoxElement) {
+        return;
+      }
+      this.selectedBoxElement.style.setProperty(propertyName, value);
     },
   },
   mounted() {
