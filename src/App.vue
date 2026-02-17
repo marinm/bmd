@@ -1,10 +1,18 @@
 <template>
-  <Paper>
-    <Box>
+  <Toolbar
+    @select-parent="selectParent"
+    @set-style-property="setStyleProperty"
+  />
+  <div class="paper-container">
+    <Paper>
       <Box>
         <Box>
           <Box>
-            <Box></Box>
+            <Box>
+              <Box></Box>
+              <Box></Box>
+              <Box></Box>
+            </Box>
             <Box></Box>
             <Box></Box>
           </Box>
@@ -14,10 +22,8 @@
         <Box></Box>
         <Box></Box>
       </Box>
-      <Box></Box>
-      <Box></Box>
-    </Box>
-  </Paper>
+    </Paper>
+  </div>
 </template>
 
 <script lang="ts">
@@ -25,11 +31,13 @@ import { mapStores } from "pinia";
 import { useSelectedBoxIdStore } from "./stores/selectedBoxId";
 import Box from "./components/Box.vue";
 import Paper from "./components/Paper.vue";
+import Toolbar from "./components/Toolbar.vue";
 
 export default {
   components: {
     Box,
     Paper,
+    Toolbar,
   },
   computed: {
     ...mapStores(useSelectedBoxIdStore),
@@ -51,19 +59,6 @@ export default {
     selectParent() {
       this.selectedBoxIdStore.set(this.parentBoxElement?.dataset.boxId ?? "");
     },
-    onKeyUp(event: KeyboardEvent) {
-      switch (event.key) {
-        case "Shift":
-          this.selectParent();
-          break;
-        case "c":
-          this.setStyleProperty("flex-direction", "column");
-          break;
-        case "r":
-          this.setStyleProperty("flex-direction", "row");
-          break;
-      }
-    },
     setStyleProperty(propertyName: string, value: any) {
       if (!this.selectedBoxElement) {
         return;
@@ -71,11 +66,15 @@ export default {
       this.selectedBoxElement.style.setProperty(propertyName, value);
     },
   },
-  mounted() {
-    window.addEventListener("keyup", this.onKeyUp);
-  },
-  unmounted() {
-    window.removeEventListener("keyup", this.onKeyUp);
-  },
 };
 </script>
+
+<style scoped>
+.paper-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0.3in;
+  box-sizing: border-box;
+}
+</style>
