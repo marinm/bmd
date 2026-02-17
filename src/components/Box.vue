@@ -9,7 +9,6 @@
     :data-box-id="boxId"
   >
     <slot />
-    <textarea :spellcheck="selectedBoxIdStore.spellcheck"></textarea>
   </div>
 </template>
 
