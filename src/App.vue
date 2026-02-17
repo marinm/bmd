@@ -55,15 +55,28 @@ export default {
       return parentBoxDiv as HTMLElement;
     },
   },
+  mounted() {
+    document.addEventListener("keyup", this.onKeyUp);
+  },
   methods: {
     selectParent() {
       this.selectedBoxIdStore.set(this.parentBoxElement?.dataset.boxId ?? "");
+    },
+    selectNone() {
+      this.selectedBoxIdStore.set("");
     },
     setStyleProperty(propertyName: string, value: any) {
       if (!this.selectedBoxElement) {
         return;
       }
       this.selectedBoxElement.style.setProperty(propertyName, value);
+    },
+    onKeyUp(event: KeyboardEvent) {
+      switch (event.key) {
+        case "Escape":
+          this.selectNone();
+          break;
+      }
     },
   },
 };
