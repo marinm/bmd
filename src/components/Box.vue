@@ -3,7 +3,7 @@
     class="box"
     :class="{
       selected: isSelected,
-      outline: selectedBoxIdStore.showBoxOutline,
+      outline: sheetStore.showBoxOutline,
     }"
     @click.stop="select"
     :data-box-id="boxId"
@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { mapStores } from "pinia";
-import { useSelectedBoxIdStore } from "../stores/selectedBoxId";
+import { useSheetStore } from "../stores/sheet";
 
 export default {
   name: "Box",
@@ -29,14 +29,14 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useSelectedBoxIdStore),
+    ...mapStores(useSheetStore),
     isSelected() {
-      return this.boxId === this.selectedBoxIdStore.boxId;
+      return this.boxId === this.sheetStore.boxId;
     },
   },
   methods: {
     select() {
-      this.selectedBoxIdStore.set(this.boxId);
+      this.sheetStore.set(this.boxId);
     },
   },
 };

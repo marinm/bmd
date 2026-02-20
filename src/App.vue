@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { mapStores } from "pinia";
-import { useSelectedBoxIdStore } from "./stores/selectedBoxId";
+import { useSheetStore } from "./stores/sheet";
 import Box from "./components/Box.vue";
 import Paper from "./components/Paper.vue";
 import Toolbar from "./components/Toolbar.vue";
@@ -59,10 +59,10 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useSelectedBoxIdStore),
+    ...mapStores(useSheetStore),
     selectedBoxElement() {
       return document.querySelector(
-        `[data-box-id="${this.selectedBoxIdStore.boxId}"]`,
+        `[data-box-id="${this.sheetStore.boxId}"]`,
       ) as HTMLElement;
     },
     parentBoxElement() {
@@ -79,10 +79,10 @@ export default {
   },
   methods: {
     selectParent() {
-      this.selectedBoxIdStore.set(this.parentBoxElement?.dataset.boxId ?? "");
+      this.sheetStore.set(this.parentBoxElement?.dataset.boxId ?? "");
     },
     selectNone() {
-      this.selectedBoxIdStore.set("");
+      this.sheetStore.set("");
     },
     setStyleProperty(propertyName: string, value: any) {
       if (!this.selectedBoxElement) {

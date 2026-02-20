@@ -10,16 +10,16 @@
     <label>
       <input
         type="checkbox"
-        :checked="selectedBoxIdStore.spellcheck"
-        @change="selectedBoxIdStore.setSpellcheck($event.target.checked)"
+        :checked="sheetStore.spellcheck"
+        @change="sheetStore.setSpellcheck($event.target.checked)"
       />
       Spellcheck
     </label>
     <label>
       <input
         type="checkbox"
-        :checked="selectedBoxIdStore.showBoxOutline"
-        @change="selectedBoxIdStore.setShowBoxOutline($event.target.checked)"
+        :checked="sheetStore.showBoxOutline"
+        @change="sheetStore.setShowBoxOutline($event.target.checked)"
       />
       Box outlines
     </label>
@@ -28,12 +28,12 @@
 
 <script lang="ts">
 import { mapStores } from "pinia";
-import { useSelectedBoxIdStore } from "../stores/selectedBoxId";
+import { useSheetStore } from "../stores/sheet";
 
 export default {
   emits: ["selectParent", "setStyleProperty"],
   computed: {
-    ...mapStores(useSelectedBoxIdStore),
+    ...mapStores(useSheetStore),
   },
 };
 </script>

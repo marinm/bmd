@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-export const useSelectedBoxIdStore = defineStore("selectedBoxId", {
+export const useSheetStore = defineStore("sheet", {
   state: () => {
     return { boxId: "", spellcheck: false, showBoxOutline: true };
   },
