@@ -19,12 +19,14 @@ import Toolbar from "./components/Toolbar.vue";
 
 type BoxStructure = {
   boxId: string;
+  style: any;
   children: BoxStructure[];
 };
 
 function newBox(children: BoxStructure[]) {
   return {
     boxId: crypto.randomUUID(),
+    style: {},
     children: children,
   };
 }

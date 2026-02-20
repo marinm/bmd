@@ -11,7 +11,8 @@
     <Box
       v-for="child in children"
       :key="child.boxId"
-      :children="child.children ?? []"
+      :children="child.children"
+      :style="child.style"
     />
   </div>
 </template>
