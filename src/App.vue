@@ -5,23 +5,7 @@
   />
   <div class="paper-container">
     <Paper>
-      <Box>
-        <Box>
-          <Box>
-            <Box>
-              <Box></Box>
-              <Box></Box>
-              <Box></Box>
-            </Box>
-            <Box></Box>
-            <Box></Box>
-          </Box>
-          <Box></Box>
-          <Box></Box>
-        </Box>
-        <Box></Box>
-        <Box></Box>
-      </Box>
+      <Box :children="children" />
     </Paper>
   </div>
 </template>
@@ -33,11 +17,46 @@ import Box from "./components/Box.vue";
 import Paper from "./components/Paper.vue";
 import Toolbar from "./components/Toolbar.vue";
 
+type BoxStructure = {
+  boxId: string;
+  children: BoxStructure[];
+};
+
+function newBox(children: BoxStructure[]) {
+  return {
+    boxId: crypto.randomUUID(),
+    children: children,
+  };
+}
+
+function defaultChildren() {
+  return [
+    newBox([
+      newBox([
+        newBox([
+          newBox([newBox([]), newBox([]), newBox([])]),
+          newBox([]),
+          newBox([]),
+        ]),
+        newBox([]),
+        newBox([]),
+      ]),
+      newBox([]),
+      newBox([]),
+    ]),
+  ];
+}
+
 export default {
   components: {
     Box,
     Paper,
     Toolbar,
+  },
+  data() {
+    return {
+      children: defaultChildren(),
+    };
   },
   computed: {
     ...mapStores(useSelectedBoxIdStore),

@@ -8,19 +8,21 @@
     @click.stop="select"
     :data-box-id="boxId"
   >
-    <slot />
+    <Box
+      v-for="child in children"
+      :key="child.boxId"
+      :children="child.children ?? []"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { mapStores } from "pinia";
-import BoxTools from "./BoxTools.vue";
 import { useSelectedBoxIdStore } from "../stores/selectedBoxId";
 
 export default {
-  components: {
-    BoxTools,
-  },
+  name: "Box",
+  props: ["children"],
   data() {
     return {
       boxId: crypto.randomUUID(),
