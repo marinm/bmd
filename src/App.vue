@@ -1,52 +1,24 @@
 <template>
-  <Toolbar
-    @select-parent="selectParent"
-    @set-style-property="setStyleProperty"
-  />
+  <Toolbar />
   <div class="paper-container">
     <Paper>
-      <Box :children="children" />
+      <Box :box-node="rootBoxNode" />
     </Paper>
   </div>
 </template>
 
 <script lang="ts">
-import { mapStores } from "pinia";
-import { useSheetStore } from "./stores/sheet";
 import Box from "./components/Box.vue";
 import Paper from "./components/Paper.vue";
 import Toolbar from "./components/Toolbar.vue";
+import type { BoxNode } from "./types/BoxNode";
 
-type BoxStructure = {
-  boxId: string;
-  style: any;
-  children: BoxStructure[];
-};
-
-function newBox(children: BoxStructure[]) {
+function newBoxNode(children: BoxNode[]) {
   return {
     boxId: crypto.randomUUID(),
     style: {},
     children: children,
   };
-}
-
-function defaultChildren() {
-  return [
-    newBox([
-      newBox([
-        newBox([
-          newBox([newBox([]), newBox([]), newBox([])]),
-          newBox([]),
-          newBox([]),
-        ]),
-        newBox([]),
-        newBox([]),
-      ]),
-      newBox([]),
-      newBox([]),
-    ]),
-  ];
 }
 
 export default {
@@ -57,48 +29,20 @@ export default {
   },
   data() {
     return {
-      children: defaultChildren(),
+      rootBoxNode: newBoxNode([
+        newBoxNode([
+          newBoxNode([
+            newBoxNode([newBoxNode([]), newBoxNode([]), newBoxNode([])]),
+            newBoxNode([]),
+            newBoxNode([]),
+          ]),
+          newBoxNode([]),
+          newBoxNode([]),
+        ]),
+        newBoxNode([]),
+        newBoxNode([]),
+      ]),
     };
-  },
-  computed: {
-    ...mapStores(useSheetStore),
-    selectedBoxElement() {
-      return document.querySelector(
-        `[data-box-id="${this.sheetStore.boxId}"]`,
-      ) as HTMLElement;
-    },
-    parentBoxElement() {
-      if (!this.selectedBoxElement) {
-        return null;
-      }
-      const parentBoxDiv =
-        this.selectedBoxElement.parentElement?.closest("[data-box-id]") ?? null;
-      return parentBoxDiv as HTMLElement;
-    },
-  },
-  mounted() {
-    document.addEventListener("keyup", this.onKeyUp);
-  },
-  methods: {
-    selectParent() {
-      this.sheetStore.set(this.parentBoxElement?.dataset.boxId ?? "");
-    },
-    selectNone() {
-      this.sheetStore.set("");
-    },
-    setStyleProperty(propertyName: string, value: any) {
-      if (!this.selectedBoxElement) {
-        return;
-      }
-      this.selectedBoxElement.style.setProperty(propertyName, value);
-    },
-    onKeyUp(event: KeyboardEvent) {
-      switch (event.key) {
-        case "Escape":
-          this.selectNone();
-          break;
-      }
-    },
   },
 };
 </script>

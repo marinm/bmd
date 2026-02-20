@@ -10,14 +10,6 @@
     <label>
       <input
         type="checkbox"
-        :checked="sheetStore.spellcheck"
-        @change="sheetStore.setSpellcheck($event.target.checked)"
-      />
-      Spellcheck
-    </label>
-    <label>
-      <input
-        type="checkbox"
         :checked="sheetStore.showBoxOutline"
         @change="sheetStore.setShowBoxOutline($event.target.checked)"
       />
